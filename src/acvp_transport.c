@@ -593,6 +593,7 @@ ACVP_RESULT acvp_submit_vector_responses (ACVP_CTX *ctx) {
 
     resp = json_serialize_to_string_pretty(ctx->kat_resp);
     rv = acvp_curl_http_post(ctx, url, resp, &acvp_curl_write_upld_func);
+    save_json(resp, "response", ctx->vs_id);
     json_value_free(ctx->kat_resp);
     ctx->kat_resp = NULL;
     json_free_serialized_string(resp);
@@ -633,6 +634,7 @@ ACVP_RESULT acvp_retrieve_vector_set_result (ACVP_CTX *ctx, int vs_id) {
         memset(ctx->kat_buf, 0x0, ACVP_KAT_BUF_MAX);
     }
     rv = acvp_curl_http_get(ctx, url, &acvp_curl_write_kat_func);
+    //save_json(ctx->kat_resp, "validation", ctx->vs_id);
     if (rv != HTTP_OK) {
         if (rv == HTTP_UNAUTH) {
             ACVP_LOG_ERR("JWT authorization has timed out curl rv=%d\n", rv);

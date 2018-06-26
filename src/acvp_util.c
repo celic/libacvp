@@ -62,6 +62,35 @@ void acvp_log_msg (ACVP_CTX *ctx, ACVP_LOG_LVL level, const char *format, ...) {
     }
 }
 
+void save_json(const char* json, const char* name, int vs_id){
+    FILE *fp;
+
+    // Pretty print json
+    JSON_Value* json_val = json_parse_string(json);
+    char* pretty_json = json_serialize_to_string_pretty(json_val);
+
+    char path_name[128];
+    strcpy(path_name, "json-files/");
+    strcat(path_name, name);
+
+    // Check if vs_id is needed at the end of the file name
+    if (vs_id){
+        char vs_id_buffer[20];
+        sprintf(vs_id_buffer, "%d", vs_id);
+        strcat(path_name, vs_id_buffer);
+    }
+
+    strcat(path_name, ".json");
+
+    // Print json content into file
+    fp = fopen(path_name, "w");
+    fprintf(fp, "%s", pretty_json);
+
+    // Clean up
+    fclose(fp);
+    json_free_serialized_string(pretty_json);
+}
+
 /*
  * Curl requires a cleanup function to be invoked when done.
  * We must extend this to our user, which is done here.

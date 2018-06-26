@@ -5751,6 +5751,8 @@ ACVP_RESULT acvp_register (ACVP_CTX *ctx) {
          * Send the login to the ACVP server and get the response,
          */
         rv = acvp_send_login(ctx, login);
+        save_json(login, "login", 0);
+        save_json(ctx->reg_buf, "login-response", 0);
         if (rv == ACVP_SUCCESS) {
             ACVP_LOG_STATUS("200 OK %s", ctx->reg_buf);
             rv = acvp_parse_login(ctx);
@@ -5790,6 +5792,8 @@ ACVP_RESULT acvp_register (ACVP_CTX *ctx) {
      * to be downloaded and processed.
      */
     rv = acvp_send_register(ctx, reg);
+    save_json(reg, "register", 0);
+    save_json(ctx->reg_buf, "register-response", 0);
     if (rv == ACVP_SUCCESS) {
         ACVP_LOG_STATUS("200 OK %s", ctx->reg_buf);
         rv = acvp_parse_register(ctx);
@@ -6431,6 +6435,7 @@ static ACVP_RESULT acvp_process_vsid (ACVP_CTX *ctx, int vs_id) {
             return (rv);
         }
         json_buf = ctx->kat_buf;
+        save_json(json_buf, "prompt", vs_id);
         if (ctx->debug == ACVP_LOG_LVL_VERBOSE) {
             printf("\n200 OK %s\n", ctx->kat_buf);
         } else {
@@ -6575,6 +6580,7 @@ static ACVP_RESULT acvp_get_result_vsid (ACVP_CTX *ctx, int vs_id) {
             return (rv);
         }
         json_buf = ctx->kat_buf;
+        save_json(json_buf, "validation", vs_id);
 
         if (ctx->debug == ACVP_LOG_LVL_VERBOSE) {
             printf("\n%s\n", ctx->kat_buf);
