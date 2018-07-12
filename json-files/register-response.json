@@ -1,0 +1,30 @@
+[
+    {
+        "acvVersion": "0.4"
+    },
+    {
+        "capabilityResponse": {
+            "vectorSets": [
+                {
+                    "vsId": 12582
+                },
+                {
+                    "vsId": 12583
+                },
+                {
+                    "vsId": 12584
+                },
+                {
+                    "vsId": 12585
+                },
+                {
+                    "vsId": 12586
+                }
+            ]
+        },
+        "testSession": {
+            "testId": 2062
+        },
+        "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI2YzYyNjU1ZC0zNWE2LTQyNDAtYjVlOS03Y2NkNWY2NTFiOGIiLCJpYXQiOjE1MzE0Mjc0OTYsInN1YiI6IkVNQUlMQUREUkVTUz1jaHJpc3RvcGhlci5jZWxpQG5pc3QuZ292LCBDTj1jY2VsaSwgT1U9QUNWUCwgTz1OSVNULCBMPUdhaXRoZXJzYnVyZywgU1Q9TWFyeWxhbmQsIEM9VVMiLCJpc3MiOiJOSVNUIEFDVlRTIiwiZXhwIjoxNTMxNDI5Mjk2LCJ2c0lkIjpbMTI1ODIsMTI1ODMsMTI1ODQsMTI1ODUsMTI1ODZdfQ.EK04yqVhVSgUrESnkIWC4OjwcY3v18Sr15mjjGsZBOY"
+    }
+]
