@@ -402,7 +402,7 @@ int main(int argc, char **argv) {
         }
         
         if (tdes) {
-            enable_tdes(ctx);
+            // enable_tdes(ctx);
         }
         
         if (hash) {
@@ -716,6 +716,7 @@ static void enable_aes (ACVP_CTX *ctx) {
 #endif
 }
 
+#if 0
 static void enable_tdes (ACVP_CTX *ctx) {
     ACVP_RESULT rv;
     
@@ -812,6 +813,7 @@ static void enable_tdes (ACVP_CTX *ctx) {
     CHECK_ENABLE_CAP_RV(rv);
 #endif
 }
+#endif
 
 static void enable_hash (ACVP_CTX *ctx) {
     ACVP_RESULT rv;
@@ -1921,6 +1923,7 @@ static void enable_drbg (ACVP_CTX *ctx) {
 }
 #endif
 
+#if 0
 static ACVP_RESULT app_des_handler(ACVP_TEST_CASE *test_case)
 {
     ACVP_SYM_CIPHER_TC      *tc;
@@ -2056,7 +2059,7 @@ static ACVP_RESULT app_des_handler(ACVP_TEST_CASE *test_case)
 
     return ACVP_SUCCESS;
 }
-
+#endif
 
 static ACVP_RESULT app_aes_handler(ACVP_TEST_CASE *test_case)
 {
