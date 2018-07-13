@@ -145,6 +145,7 @@ static EVP_CIPHER_CTX cipher_ctx;  /* need to maintain across calls for MCT */
 static void setup_session_parameters()
 {
     char *tmp;
+    char *openssl_version;
 
     server = getenv("ACV_SERVER");
     if (!server) server = DEFAULT_SERVER;
@@ -176,6 +177,11 @@ static void setup_session_parameters()
     printf("    ACV_CERT_FILE:  %s\n", cert_file);
     printf("    ACV_KEY_FILE:   %s\n", key_file);
     printf("    ACV_TOTP_SEED:  %s\n\n", totp_seed);
+
+    openssl_version = SSLeay_version(SSLEAY_VERSION);
+    if (!openssl_version) openssl_version = "";
+
+    printf("OpenSSL Version: %s\n\n", openssl_version);
 }
 
 /*
@@ -4439,13 +4445,17 @@ static ACVP_RESULT totp(char **token)
     }
 
     t = time(NULL);
+    t = 1531497663;
+    printf("Time Used: %d\n", t);
     memset(new_seed, 0, ACVP_TOTP_TOKEN_MAX);
 
     // RFC4226
     memset(msg, 0, T_LEN);
     memset(token_buff, 0, T_LEN);
     t = t/30;
+    printf("T/30: %d\n", t);
     token_buff[0] = (t>>T_LEN*7) & 0xff;
+    printf("token0: %d\n", token_buff[0]);
     token_buff[1] = (t>>T_LEN*6) & 0xff;
     token_buff[2] = (t>>T_LEN*5) & 0xff;
     token_buff[3] = (t>>T_LEN*4) & 0xff;
@@ -4463,7 +4473,8 @@ static ACVP_RESULT totp(char **token)
         return ACVP_TOTP_DECODE_FAIL;
     }
 
-
+    printf("Decoded seed: %s\n", new_seed);
+    printf("Token buffer: %s\n", token_buff);
     // use passed hash function
     md_len = hmac_totp(new_seed, token_buff, hash, EVP_sha256(), seed_len);
     if (md_len == 0) {
@@ -4471,12 +4482,16 @@ static ACVP_RESULT totp(char **token)
         free(new_seed);
         return ACVP_CRYPTO_MODULE_FAIL;
     }
+    printf("hash: %s\n", hash);
     os = hash[(int)md_len - 1] & 0xf;
+    printf("os: %d\n", os);
 
     bin = ((hash[os + 0] & 0x7f) << 24) |
               ((hash[os + 1] & 0xff) << 16) |
               ((hash[os + 2] & 0xff) <<  8) |
               ((hash[os + 3] & 0xff) <<  0) ;
+
+    printf("Bin: %d\n", bin);
 
     otp = bin % DIGITS_POWER[ACVP_TOTP_LENGTH];
 
